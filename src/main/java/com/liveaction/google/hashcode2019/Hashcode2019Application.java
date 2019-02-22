@@ -15,8 +15,8 @@ public class Hashcode2019Application {
 		String filePath = args[0];
 		Path path = Paths.get(filePath);
 
-		Input pizzaInput = Input.fromFile(path);
-		System.out.println(pizzaInput);
+		Input input = Input.fromFile(path);
+		System.out.println(input);
 
 		List<?> results = Lists.newArrayList();
 
