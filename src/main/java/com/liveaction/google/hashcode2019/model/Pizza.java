@@ -41,7 +41,7 @@ public final class Pizza {
                 if (cells[r][c] == Ingredient.EMPTY) {
                     throw new IllegalStateException("cell is empty");
                 }
-                cells[r][c] = Ingredient.EMPTY;
+                newPizza[r][c] = Ingredient.EMPTY;
             }
         }
         return new Pizza(newPizza);
@@ -65,7 +65,7 @@ public final class Pizza {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Pizza{");
-        sb.append("cells=").append(Arrays.toString(cells));
+        sb.append("cells=").append(Arrays.deepToString(cells));
         sb.append('}');
         return sb.toString();
     }
