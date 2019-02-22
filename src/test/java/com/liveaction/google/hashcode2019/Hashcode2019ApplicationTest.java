@@ -8,7 +8,7 @@ public class Hashcode2019ApplicationTest {
     public void shouldLoadPizzaInput() throws Exception {
         Hashcode2019Application hashcode2019Application = new Hashcode2019Application();
 
-        String args[] = new String[]{"src/test/resources/a_example.in"};
+        String args[] = new String[]{"src/test/resources/input.in"};
 
         hashcode2019Application.main(args);
     }
