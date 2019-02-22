@@ -11,15 +11,17 @@ import java.util.List;
 
 public class Hashcode2019Application {
 
-	public static void main(String[] args) throws IOException {
-		String filePath = args[0];
-		Path path = Paths.get(filePath);
+    public static void main(String[] args) throws IOException {
+        for (int i = 0; i < 4; i++) {
+            Path path = Paths.get(args[i]);
 
-		Input input = Input.fromFile(path);
-		System.out.println(input);
+            Input input = Input.fromFile(path);
+            System.out.println(input);
 
-		List<?> results = Lists.newArrayList();
+            List<?> results = Lists.newArrayList();
+            System.out.println(results);
 
-		new OutputWriter().writeOutput(results);
-	}
+            new OutputWriter().writeOutput(results, String.format("output%d", (i+1)));
+        }
+    }
 }

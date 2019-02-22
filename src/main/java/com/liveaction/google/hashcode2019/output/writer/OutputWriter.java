@@ -11,10 +11,9 @@ import java.util.List;
 
 public class OutputWriter {
 
-    public static final String OUTPUT_PATH = "output.out";
 
-    public void writeOutput(Collection<?> inputs) throws IOException {
+    public void writeOutput(Collection<?> inputs, String fileName) throws IOException {
         List<String> result = Lists.newArrayList(); // TODO
-        Files.write(Paths.get(OUTPUT_PATH), result, Charset.defaultCharset());
+        Files.write(Paths.get(String.format("%s.out", fileName)), result, Charset.defaultCharset());
     }
 }
