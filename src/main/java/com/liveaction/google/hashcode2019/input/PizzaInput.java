@@ -1,5 +1,6 @@
 package com.liveaction.google.hashcode2019.input;
 
+import com.google.common.base.MoreObjects;
 import com.liveaction.google.hashcode2019.model.Ingredient;
 import com.liveaction.google.hashcode2019.model.Pizza;
 
@@ -43,10 +44,19 @@ public final class PizzaInput {
             for (int j = 0; j < line.length(); j++) {
                 char ingredient = line.charAt(j);
 
-                ingredients[i][j] = 'M' == ingredient ? Ingredient.MUSHROOM : Ingredient.TOMATO;
+                ingredients[i - 1][j] = 'M' == ingredient ? Ingredient.MUSHROOM : Ingredient.TOMATO;
             }
         }
 
         return new PizzaInput(minIngredientsFromFile, maxCellsFromFile, new Pizza(ingredients));
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("minIngredients", minIngredients)
+                .add("maxCells", maxCells)
+                .add("pizza", pizza)
+                .toString();
     }
 }

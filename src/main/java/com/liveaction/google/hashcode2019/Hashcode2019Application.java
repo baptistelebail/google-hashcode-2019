@@ -17,6 +17,7 @@ public class Hashcode2019Application {
 		Path path = Paths.get(filePath);
 
 		PizzaInput pizzaInput = PizzaInput.fromFile(path);
+		System.out.println(pizzaInput);
 
 		SliceSolver solver = null; // implementation
 
