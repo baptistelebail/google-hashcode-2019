@@ -19,6 +19,13 @@ public class SliceSolverTest {
                         {Ingredient.MUSHROOM, Ingredient.TOMATO, Ingredient.TOMATO},
                         {Ingredient.MUSHROOM, Ingredient.TOMATO, Ingredient.MUSHROOM}
                 });
+        assertThat(of.toString())
+                .isEqualTo("" +
+                        "3 3\n" +
+                        "MTT\n" +
+                        "MTT\n" +
+                        "MTM\n" +
+                        "");
     }
-    
+
 }

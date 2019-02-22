@@ -64,9 +64,22 @@ public final class Pizza {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Pizza{");
-        sb.append("cells=").append(Arrays.deepToString(cells));
-        sb.append('}');
+        StringBuilder sb = new StringBuilder();
+        sb.append(cells.length);
+        if (cells.length > 0) {
+            sb.append(" ");
+            sb.append(cells[0].length);
+            sb.append("\n");
+            for (Ingredient[] cell : cells) {
+                for (Ingredient ingredient : cell) {
+                    sb.append(ingredient.repr);
+                }
+                sb.append("\n");
+            }
+        } else {
+            sb.append("EMPTY");
+        }
         return sb.toString();
     }
+
 }
