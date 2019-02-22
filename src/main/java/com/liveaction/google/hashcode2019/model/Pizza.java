@@ -4,13 +4,18 @@ import com.google.common.collect.Lists;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public final class Pizza {
 
     public final Ingredient[][] cells;
+    public final int row;
+    public final int column;
 
     public Pizza(Ingredient[][] cells) {
         this.cells = cells;
+        row = cells.length;
+        column = cells[0].length;
     }
 
     public static Pizza of(int rows, int columns, Ingredient... ingredients) {
@@ -27,6 +32,41 @@ public final class Pizza {
             }
         }
         return new Pizza(cells);
+    }
+
+    public SliceValid isValid(Slice slice, int minIngredient, int maxCells) {
+        if (slice.size() > maxCells) {
+            return SliceValid.TOO_BIG;
+        }
+        if (slice.r2 >= row || slice.c2 >= column) {
+            return SliceValid.OUT_OF_BOUND;
+        }
+        int nbMushrooms = 0;
+        int nbTomatoes = 0;
+        for (Ingredient ingredient : iterate(slice)) {
+            switch (ingredient) {
+                case TOMATO:
+                    nbTomatoes++;
+                    break;
+                case MUSHROOM:
+                    nbMushrooms++;
+                    break;
+                case EMPTY:
+                    return SliceValid.EMPTY;
+            }
+        }
+        if (nbMushrooms >= minIngredient && nbTomatoes >= minIngredient) {
+            return SliceValid.VALID;
+        } else {
+            return SliceValid.NOT_ENOUGH_INGREDIENT;
+        }
+    }
+
+    public Iterable<Ingredient> iterate(Slice slice) {
+        return () -> IntStream.range(slice.r1, slice.r2 + 1)
+                .mapToObj(row -> IntStream.range(slice.c1, slice.c2 + 1)
+                        .mapToObj(column -> cells[row][column])
+                ).flatMap(s -> s).iterator();
     }
 
     public Pizza cut(Slice slice) {

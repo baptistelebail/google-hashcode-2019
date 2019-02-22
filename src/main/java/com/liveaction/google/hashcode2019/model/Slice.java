@@ -46,4 +46,8 @@ public final class Slice {
         sb.append('}');
         return sb.toString();
     }
+
+    public long size() {
+        return (r2 - r1) * (c2 - c1);
+    }
 }
