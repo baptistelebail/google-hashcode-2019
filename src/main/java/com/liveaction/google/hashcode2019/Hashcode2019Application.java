@@ -3,6 +3,7 @@ package com.liveaction.google.hashcode2019;
 import com.liveaction.google.hashcode2019.input.PizzaInput;
 import com.liveaction.google.hashcode2019.model.Slice;
 import com.liveaction.google.hashcode2019.model.SliceSolver;
+import com.liveaction.google.hashcode2019.model.impl.SliceSolverImpl;
 import com.liveaction.google.hashcode2019.output.writer.OutputWriter;
 
 import java.io.IOException;
@@ -19,7 +20,7 @@ public class Hashcode2019Application {
 		PizzaInput pizzaInput = PizzaInput.fromFile(path);
 		System.out.println(pizzaInput);
 
-		SliceSolver solver = null; // implementation
+		SliceSolver solver = new SliceSolverImpl(); // implementation
 
 		Collection<Slice> slices = solver.solve(pizzaInput.pizza, pizzaInput.minIngredients, pizzaInput.maxCells);
 
