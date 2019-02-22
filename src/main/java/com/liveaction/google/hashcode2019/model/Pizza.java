@@ -1,6 +1,9 @@
 package com.liveaction.google.hashcode2019.model;
 
+import com.google.common.collect.Lists;
+
 import java.util.Arrays;
+import java.util.List;
 
 public final class Pizza {
 
@@ -8,6 +11,22 @@ public final class Pizza {
 
     public Pizza(Ingredient[][] cells) {
         this.cells = cells;
+    }
+
+    public static Pizza of(int rows, int columns, Ingredient... ingredients) {
+        List<List<Ingredient>> inputRows = Lists.partition(Lists.newArrayList(ingredients), rows);
+        Ingredient[][] cells = new Ingredient[rows][];
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < columns; c++) {
+                Ingredient[] row = new Ingredient[columns];
+                List<Ingredient> inputRow = inputRows.get(r);
+                for (int i = 0; i < inputRow.size(); i++) {
+                    row[i] = inputRow.get(i);
+                }
+                cells[r] = row;
+            }
+        }
+        return new Pizza(cells);
     }
 
     public Pizza cut(Slice slice) {
