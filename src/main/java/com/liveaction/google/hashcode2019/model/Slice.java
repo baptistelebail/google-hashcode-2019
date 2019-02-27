@@ -14,6 +14,10 @@ public final class Slice {
         this.c2 = c2;
     }
 
+    public Slice(Position p1, Position p2) {
+        this(p1.row, p1.column, p2.row, p2.column);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -38,13 +42,14 @@ public final class Slice {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Slice{");
-        sb.append("r1=").append(r1);
-        sb.append(", c1=").append(c1);
-        sb.append(", r2=").append(r2);
-        sb.append(", c2=").append(c2);
-        sb.append('}');
-        return sb.toString();
+        return "[("+r1+","+c1+"),("+r2 +"," + c2 + ")]";
+//        final StringBuilder sb = new StringBuilder("Slice{");
+//        sb.append("r1=").append(r1);
+//        sb.append(", c1=").append(c1);
+//        sb.append(", r2=").append(r2);
+//        sb.append(", c2=").append(c2);
+//        sb.append('}');
+//        return sb.toString();
     }
 
     public long size() {

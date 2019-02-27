@@ -9,13 +9,13 @@ import java.util.stream.IntStream;
 public final class Pizza {
 
     public final Ingredient[][] cells;
-    public final int row;
-    public final int column;
+    public final int rows;
+    public final int columns;
 
     public Pizza(Ingredient[][] cells) {
         this.cells = cells;
-        row = cells.length;
-        column = cells[0].length;
+        rows = cells.length;
+        columns = cells[0].length;
     }
 
     public static Pizza of(int rows, int columns, Ingredient... ingredients) {
@@ -34,11 +34,19 @@ public final class Pizza {
         return new Pizza(cells);
     }
 
+    public Ingredient ingredient(int row, int column) {
+        return cells[row][column];
+    }
+
+    public Ingredient ingredient(Position position) {
+        return ingredient(position.row, position.column);
+    }
+
     public SliceValid isValid(Slice slice, int minIngredient, int maxCells) {
         if (slice.size() > maxCells) {
             return SliceValid.TOO_BIG;
         }
-        if (slice.r2 >= row || slice.c2 >= column) {
+        if (slice.r2 >= rows || slice.c2 >= columns) {
             return SliceValid.OUT_OF_BOUND;
         }
         int nbMushrooms = 0;
