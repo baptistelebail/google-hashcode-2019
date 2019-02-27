@@ -42,7 +42,7 @@ public final class Slice {
 
     @Override
     public String toString() {
-        return "[("+r1+","+c1+"),("+r2 +"," + c2 + ")]";
+        return "[(" + r1 + "," + c1 + "),(" + r2 + "," + c2 + ")]";
 //        final StringBuilder sb = new StringBuilder("Slice{");
 //        sb.append("r1=").append(r1);
 //        sb.append(", c1=").append(c1);
@@ -53,6 +53,6 @@ public final class Slice {
     }
 
     public long size() {
-        return (r2 - r1) * (c2 - c1);
+        return (r2 + 1 - r1) * (c2 + 1 - c1);
     }
 }

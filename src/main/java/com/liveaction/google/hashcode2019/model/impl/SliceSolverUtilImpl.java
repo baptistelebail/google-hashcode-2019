@@ -4,11 +4,12 @@ import com.google.common.collect.Lists;
 import com.liveaction.google.hashcode2019.model.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 public final class SliceSolverUtilImpl implements SliceSolverUtil {
     @Override
-    public Stream<Slice> possiblesSlices(Pizza pizza, Position from, int maxSliceSize, int minIngredients) {
+    public Optional<Stream<Slice>> possiblesSlices(Pizza pizza, Position from, int maxSliceSize, int minIngredients) {
         Position position = sliceMaxRange(pizza, from);
         int maxRows = position.row;
         int maxColumns = position.column;
@@ -28,7 +29,13 @@ public final class SliceSolverUtilImpl implements SliceSolverUtil {
             row++;
         }
 
-        return slices.stream();
+        if (slices.isEmpty()) {
+            return Optional.empty();
+        }
+//        return slices.stream();
+        return Optional.of(slices.stream()
+                .sorted((size1, size2) -> Long.compare(size2.size(), size1.size()))
+                .limit(2));
     }
 
     private int size(int row, int column) {

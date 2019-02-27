@@ -27,11 +27,16 @@ public final class SliceSolverImpl implements SliceSolver {
         Collection<Slice> slices = recursiveSolver(pizza, minIngredient, maxCells, new Position(0, 0))
                 .max(Comparator.comparingLong(this::sizes)).get();
         System.out.println("Solution is : "+slices);
+        System.out.println("Score is "+sizes(slices));
         return slices;
     }
 
     public Stream<Collection<Slice>> recursiveSolver(Pizza pizza, int minIngredient, int maxCells, Position from) {
-        return util.possiblesSlices(pizza, from, maxCells, minIngredient)
+        Optional<Stream<Slice>> sliceStream = util.possiblesSlices(pizza, from, maxCells, minIngredient);
+        if (!sliceStream.isPresent()) {
+            return Stream.of(ImmutableList.of());
+        }
+        return sliceStream.get()
                 .flatMap(slice -> {
                     Pizza cutPizza = pizza.cut(slice);
                     Optional<Position> nextPosition = getNextPosition(cutPizza, from);

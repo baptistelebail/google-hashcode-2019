@@ -9,10 +9,9 @@ public class Hashcode2019ApplicationTest {
         Hashcode2019Application hashcode2019Application = new Hashcode2019Application();
 
 //        String args[] = new String[]{"src/test/resources/b_small.in"};
-//
 //        hashcode2019Application.main(args);
-        String args[] = new String[]{"src/test/resources/c_medium.in"};
 
+        String args[] = new String[]{"src/test/resources/c_medium.in"};
         hashcode2019Application.main(args);
 //        String args[] = new String[]{"src/test/resources/b_small.in"};
 //
