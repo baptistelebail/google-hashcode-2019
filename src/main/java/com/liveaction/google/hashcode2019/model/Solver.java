@@ -1,6 +1,5 @@
 package com.liveaction.google.hashcode2019.model;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -10,7 +9,6 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.IntStream;
 
 public class Solver {
     public static int score(List<Slide> solve) {
@@ -25,7 +23,8 @@ public class Solver {
 
         TagMapping tagMapping = new TagMapping(photos);
 
-        List<Slide> slides = Lists.newArrayList(flatSlides(tagMapping.indexedPhotos, verticalParam));
+        List<Slide> slides = Lists.newArrayList(tagMapping.flatSlides);
+
         List<Slide> slideshow = Lists.newArrayList();
         if (slides.isEmpty()) {
             return slideshow;
@@ -54,41 +53,6 @@ public class Solver {
                 .map(Map.Entry::getKey)
                 .get();
         return val;
-    }
-
-    private List<Slide> flatSlides(Collection<IndexedPhoto> photos, int verticalParam) {
-        ImmutableList.Builder<Slide> builder = ImmutableList.builder();
-        ImmutableList.Builder<IndexedPhoto> verticals = ImmutableList.builder();
-        for (IndexedPhoto photo : photos) {
-            if (photo.horizontal) {
-                builder.add(new Slide(photo));
-            } else {
-                verticals.add(photo);
-            }
-        }
-
-        return builder.addAll(mergeVerticalsPhoto(verticals.build(), verticalParam)).build();
-    }
-
-
-    static List<Slide> mergeVerticalsPhoto(Collection<IndexedPhoto> photos, int verticalParam) {
-        ImmutableList.Builder<Slide> res = ImmutableList.builder();
-        List<IndexedPhoto> remainingPhotos = Lists.newArrayList(photos);
-        while (remainingPhotos.size() > 1) {
-            IndexedPhoto firstPhoto = remainingPhotos.remove(0);
-            int bestPair = bestPair(firstPhoto, remainingPhotos, verticalParam);
-            res.add(new Slide(firstPhoto, remainingPhotos.remove(bestPair)));
-        }
-        return res.build();
-    }
-
-    private static int bestPair(IndexedPhoto firstPhoto, List<IndexedPhoto> remainingPhotos, int verticalParam) {
-        return IntStream.range(0, remainingPhotos.size())
-                .limit(verticalParam)
-                .mapToObj(photo -> Maps.immutableEntry(photo, Sets.intersection(firstPhoto.tags, remainingPhotos.get(photo).tags).size()))
-                .min(Comparator.comparingInt(Map.Entry::getValue))
-                .map(Map.Entry::getKey)
-                .get();
     }
 
     static int score(Slide s1, Slide s2) {

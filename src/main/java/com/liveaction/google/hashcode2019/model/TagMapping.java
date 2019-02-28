@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
@@ -15,6 +16,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
 import java.util.stream.IntStream;
 
 public final class TagMapping {
@@ -25,6 +27,8 @@ public final class TagMapping {
     public final Set<IndexedPhoto>[] photosByTagIndex;
     public final List<Slide> flatSlides;
     public Set<IndexedPhoto> indexedPhotos;
+
+    private final Int2ObjectMap<SortedSet<Slide>> indexedFlatSlides;
 
     public TagMapping(Collection<Photo> photos) {
         tagByIndex = new Object2IntOpenHashMap<>();
@@ -72,6 +76,13 @@ public final class TagMapping {
 
         flatSlides = flatSlides(indexedPhotos);
 
+
+        indexedFlatSlides = index(flatSlides);
+
+    }
+
+    private Int2ObjectMap<SortedSet<Slide>> index(List<Slide> flatSlides) {
+        return null;
     }
 
 
