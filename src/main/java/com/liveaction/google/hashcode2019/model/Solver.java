@@ -53,9 +53,8 @@ public class Solver {
         Slide val = others.stream()
                 .limit(limit)
                 .map(slide -> Maps.immutableEntry(slide, score(slide, lastSlide)))
-                .sorted(Comparator.comparingInt(Map.Entry::getValue))
+                .max(Comparator.comparingInt(Map.Entry::getValue))
                 .map(Map.Entry::getKey)
-                .findFirst()
                 .get();
         return val;
     }
