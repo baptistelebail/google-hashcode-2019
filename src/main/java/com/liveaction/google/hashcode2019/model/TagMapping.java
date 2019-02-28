@@ -26,12 +26,16 @@ public final class TagMapping {
         for (Photo photo : photos) {
             for (String tag : photo.tags) {
                 if (!tagByIndex.containsKey(tag)) {
-                    tagByIndex.put(tag, val);
-                    photosByTagIndex.computeIfAbsent(val, ignored -> new HashSet<>());
-                    val++;
+                    tagByIndex.put(tag, val++);
                 }
             }
+        }
 
+        for (int index : tagByIndex.values()) {
+            photosByTagIndex.computeIfAbsent(index, ignored -> new HashSet<>());
+        }
+
+        for (Photo photo : photos) {
             IntOpenHashSet sets = new IntOpenHashSet(photo.tags.size());
             photo.tags.forEach(tag -> sets.add(tagByIndex.getInt(tag)));
             IndexedPhoto indexedPhoto = new IndexedPhoto(photo.index, sets, photo.horizontal);
