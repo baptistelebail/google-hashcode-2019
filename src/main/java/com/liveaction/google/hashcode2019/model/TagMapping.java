@@ -1,5 +1,6 @@
 package com.liveaction.google.hashcode2019.model;
 
+import com.google.common.collect.ImmutableSortedSet;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
@@ -28,12 +29,12 @@ public final class TagMapping {
             }
         }
 
-        photosByTagIndex = new Set[val];
 
         System.out.println("Tags indexed !");
 
+        Set<IndexedPhoto>[] tmp = new Set[val];
         for (int index : tagByIndex.values()) {
-            photosByTagIndex[index] = new HashSet<>();
+            tmp[index] = new HashSet<>();
         }
 
         System.out.println("Mapping initialized");
@@ -46,8 +47,13 @@ public final class TagMapping {
             indexedPhotos.add(indexedPhoto);
 
             for (String tag : photo.tags) {
-                photosByTagIndex[tagByIndex.getInt(tag)].add(indexedPhoto);
+                tmp[tagByIndex.getInt(tag)].add(indexedPhoto);
             }
+        }
+
+        photosByTagIndex = new Set[val];
+        for (int index : tagByIndex.values()) {
+            photosByTagIndex[index] = ImmutableSortedSet.copyOf(tmp[index]);
         }
 
         System.out.println("Mapping done");

@@ -5,7 +5,7 @@ import com.google.common.base.MoreObjects;
 import java.util.Objects;
 import java.util.Set;
 
-public final class IndexedPhoto {
+public final class IndexedPhoto implements Comparable<IndexedPhoto> {
     public final int index;
 
     public final Set<Integer> tags;
@@ -40,5 +40,10 @@ public final class IndexedPhoto {
                 .add("tags", tags)
                 .add("horizontal", horizontal)
                 .toString();
+    }
+
+    @Override
+    public int compareTo(IndexedPhoto o) {
+        return Integer.compare(tags.size(), o.tags.size());
     }
 }
