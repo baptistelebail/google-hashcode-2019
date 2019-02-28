@@ -59,7 +59,8 @@ public class Solver {
         return builder.addAll(mergeVerticalsPhoto(verticals.build())).build();
     }
 
-    private List<Slide> mergeVerticalsPhoto(Collection<Photo> photos) {
+
+    static List<Slide> mergeVerticalsPhoto(Collection<Photo> photos) {
         ImmutableList.Builder<Slide> res = ImmutableList.builder();
         List<Photo> remainingPhotos = Lists.newArrayList(photos);
         while (remainingPhotos.size() > 1) {
@@ -70,7 +71,7 @@ public class Solver {
         return res.build();
     }
 
-    private int bestPair(Photo firstPhoto, List<Photo> remainingPhotos) {
+    private static int bestPair(Photo firstPhoto, List<Photo> remainingPhotos) {
         return IntStream.range(0, remainingPhotos.size())
                 .mapToObj(photo -> Maps.immutableEntry(photo, Sets.intersection(firstPhoto.tags, remainingPhotos.get(photo).tags).size()))
                 .min(Comparator.comparingInt(Map.Entry::getValue))

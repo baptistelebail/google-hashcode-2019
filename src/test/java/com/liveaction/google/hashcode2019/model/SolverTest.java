@@ -33,4 +33,21 @@ public class SolverTest {
         List<Slide> solve = solver.solve(input.getPhotos());
         System.out.println(solve);
     }
+
+    @Test
+    public void shouldMergeVerticals() {
+        String tag1 = "tag1";
+        String tag2 = "tag2";
+        String tag3 = "tag3";
+        String tag4 = "tag4";
+        String tag5 = "tag5";
+        Photo p1 = new Photo(0, ImmutableSet.of(tag1, tag2), false);
+        Photo p2 = new Photo(1, ImmutableSet.of(tag2, tag3), false);
+        Photo p3 = new Photo(2, ImmutableSet.of(tag4, tag5), false);
+        Photo p4 = new Photo(3, ImmutableSet.of(tag1), false);
+        ImmutableList<Photo> photos = ImmutableList.of(p1, p2, p3, p4);
+        List<Slide> actual = Solver.mergeVerticalsPhoto(photos);
+        Assertions.assertThat(actual)
+                .containsOnly(new Slide(p1, p3), new Slide(p2, p4));
+    }
 }
