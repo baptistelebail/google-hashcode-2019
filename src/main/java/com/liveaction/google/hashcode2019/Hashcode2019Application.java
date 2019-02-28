@@ -21,7 +21,7 @@ public class Hashcode2019Application {
             List<?> results = Lists.newArrayList();
             System.out.println(results);
 
-            new OutputWriter().writeOutput(results, String.format("output%d", (i+1)));
+//            new OutputWriter().writeOutput(results, String.format("output%d", (i+1)));
         }
     }
 }

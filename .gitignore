@@ -50,6 +50,8 @@ nb-configuration.xml
 nbactions.xml
 nbproject/
 
+*.tar.gz
+
 # Maven
 target
 .class
