@@ -1,19 +1,34 @@
 package com.liveaction.google.hashcode2019.model;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
 
-import java.util.List;
-
 import java.util.Collection;
+import java.util.List;
 
 public class Solver {
 
     public List<Slide> solve(List<Photo> photos) {
-        List<Slide>  slides = flatSlides(photos);
-        if (photos.isEmpty())  {
-            return ImmmutableList();
+        List<Slide> slides = flatSlides(photos);
+        List<Slide> list = Lists.newArrayList();
+        solveR(slides, list);
+        return list;
+    }
+
+    private void solveR(List<Slide> slideshow, List<Slide> others) {
+        if (!others.isEmpty()) {
+            Slide lastSlide = slideshow.get(slideshow.size() - 1);
+            int optIndex = optimal(lastSlide, others);
+            Slide optimal = others.get(optIndex);
+            slideshow.add(optimal);
+            others.remove(optIndex);
+            solveR(slideshow, others);
         }
+    }
+
+    private int optimal(Slide lastSlide, List<Slide> others) {
+        return 0;
     }
 
     private List<Slide> flatSlides(List<Photo> photos) {
