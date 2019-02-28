@@ -8,15 +8,15 @@ import java.util.Set;
 
 public class Slide {
 
-    public final Photo photo1;
-    public final Photo photo2;
-    private final Set<String> tags;
+    public final IndexedPhoto photo1;
+    public final IndexedPhoto photo2;
+    private final Set<Integer> tags;
 
-    public Slide(Photo photo) {
+    public Slide(IndexedPhoto photo) {
         this(photo, null);
     }
 
-    public Slide(Photo photo1, Photo photo2) {
+    public Slide(IndexedPhoto photo1, IndexedPhoto photo2) {
         this.photo1 = photo1;
         this.photo2 = photo2;
         if (photo2 == null) {
@@ -26,7 +26,7 @@ public class Slide {
         }
     }
 
-    public Set<String> tags() {
+    public Set<Integer> tags() {
         return this.tags;
     }
 

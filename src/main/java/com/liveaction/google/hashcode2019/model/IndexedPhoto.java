@@ -1,7 +1,6 @@
 package com.liveaction.google.hashcode2019.model;
 
 import com.google.common.base.MoreObjects;
-import it.unimi.dsi.fastutil.ints.IntSet;
 
 import java.util.Objects;
 import java.util.Set;
@@ -13,7 +12,7 @@ public final class IndexedPhoto {
 
     public final boolean horizontal;
 
-    public IndexedPhoto(int index, IntSet tags, boolean horizontal) {
+    public IndexedPhoto(int index, Set<Integer> tags, boolean horizontal) {
         this.index = index;
         this.tags = tags;
         this.horizontal = horizontal;

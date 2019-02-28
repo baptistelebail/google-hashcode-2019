@@ -16,7 +16,10 @@ public class Solver {
     public static final int LIMIT_COMPARE_PHOTO = 100;
 
     public List<Slide> solve(Collection<Photo> photos) {
-        List<Slide> slides = Lists.newArrayList(flatSlides(photos));
+
+        TagMapping tagMapping = new TagMapping(photos);
+
+        List<Slide> slides = Lists.newArrayList(flatSlides(tagMapping.indexedPhotos));
         List<Slide> slideshow = Lists.newArrayList();
         if (slides.isEmpty()) {
             return slideshow;
@@ -48,10 +51,10 @@ public class Solver {
         return val;
     }
 
-    private List<Slide> flatSlides(Collection<Photo> photos) {
+    private List<Slide> flatSlides(Collection<IndexedPhoto> photos) {
         ImmutableList.Builder<Slide> builder = ImmutableList.builder();
-        ImmutableList.Builder<Photo> verticals = ImmutableList.builder();
-        for (Photo photo : photos) {
+        ImmutableList.Builder<IndexedPhoto> verticals = ImmutableList.builder();
+        for (IndexedPhoto photo : photos) {
             if (photo.horizontal) {
                 builder.add(new Slide(photo));
             } else {
@@ -63,18 +66,18 @@ public class Solver {
     }
 
 
-    static List<Slide> mergeVerticalsPhoto(Collection<Photo> photos) {
+    static List<Slide> mergeVerticalsPhoto(Collection<IndexedPhoto> photos) {
         ImmutableList.Builder<Slide> res = ImmutableList.builder();
-        List<Photo> remainingPhotos = Lists.newArrayList(photos);
+        List<IndexedPhoto> remainingPhotos = Lists.newArrayList(photos);
         while (remainingPhotos.size() > 1) {
-            Photo firstPhoto = remainingPhotos.remove(0);
+            IndexedPhoto firstPhoto = remainingPhotos.remove(0);
             int bestPair = bestPair(firstPhoto, remainingPhotos);
             res.add(new Slide(firstPhoto, remainingPhotos.remove(bestPair)));
         }
         return res.build();
     }
 
-    private static int bestPair(Photo firstPhoto, List<Photo> remainingPhotos) {
+    private static int bestPair(IndexedPhoto firstPhoto, List<IndexedPhoto> remainingPhotos) {
         return IntStream.range(0, remainingPhotos.size())
                 .limit(LIMIT_COMPARE_PHOTO)
                 .mapToObj(photo -> Maps.immutableEntry(photo, Sets.intersection(firstPhoto.tags, remainingPhotos.get(photo).tags).size()))
@@ -84,9 +87,9 @@ public class Solver {
     }
 
     int score(Slide s1, Slide s2) {
-        Sets.SetView<String> intersection = Sets.intersection(s1.tags(), s2.tags());
-        Sets.SetView<String> difference1 = Sets.difference(s1.tags(), s2.tags());
-        Sets.SetView<String> difference2 = Sets.difference(s2.tags(), s1.tags());
+        Sets.SetView<Integer> intersection = Sets.intersection(s1.tags(), s2.tags());
+        Sets.SetView<Integer> difference1 = Sets.difference(s1.tags(), s2.tags());
+        Sets.SetView<Integer> difference2 = Sets.difference(s2.tags(), s1.tags());
         return Math.min(intersection.size(), Math.min(difference1.size(), difference2.size()));
     }
 
