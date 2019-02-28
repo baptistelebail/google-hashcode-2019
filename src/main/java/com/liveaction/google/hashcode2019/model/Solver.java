@@ -13,6 +13,8 @@ import java.util.stream.IntStream;
 
 public class Solver {
 
+    public static final int LIMIT_COMPARE_PHOTO = 100;
+
     public List<Slide> solve(Collection<Photo> photos) {
         List<Slide> slides = Lists.newArrayList(flatSlides(photos));
         List<Slide> slideshow = Lists.newArrayList();
@@ -27,22 +29,23 @@ public class Solver {
     }
 
     private void solveR(List<Slide> slideshow, List<Slide> others) {
-        if (!others.isEmpty()) {
+        while (!others.isEmpty()) {
             Slide lastSlide = slideshow.get(slideshow.size() - 1);
-            Slide optimal = optimal(lastSlide, others);
+            Slide optimal = optimal(lastSlide, others, LIMIT_COMPARE_PHOTO);
             slideshow.add(optimal);
             others.remove(optimal);
-            solveR(slideshow, others);
         }
     }
 
-    private Slide optimal(Slide lastSlide, List<Slide> others) {
-        return others.stream()
+    private Slide optimal(Slide lastSlide, List<Slide> others, int limit) {
+        Slide val = others.stream()
+                .limit(limit)
                 .map(slide -> Maps.immutableEntry(slide, score(slide, lastSlide)))
                 .sorted(Comparator.comparingInt(Map.Entry::getValue))
                 .map(Map.Entry::getKey)
                 .findFirst()
                 .get();
+        return val;
     }
 
     private List<Slide> flatSlides(Collection<Photo> photos) {
@@ -73,6 +76,7 @@ public class Solver {
 
     private static int bestPair(Photo firstPhoto, List<Photo> remainingPhotos) {
         return IntStream.range(0, remainingPhotos.size())
+                .limit(LIMIT_COMPARE_PHOTO)
                 .mapToObj(photo -> Maps.immutableEntry(photo, Sets.intersection(firstPhoto.tags, remainingPhotos.get(photo).tags).size()))
                 .min(Comparator.comparingInt(Map.Entry::getValue))
                 .map(Map.Entry::getKey)
