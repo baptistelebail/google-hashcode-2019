@@ -32,13 +32,13 @@ public final class TagMapping {
 
         photosByTagIndex = new Int2ObjectArrayMap<>(tagByIndex.size());
 
-        System.out.println("LA1 !");
+        System.out.println("Tags indexed !");
 
         for (int index : tagByIndex.values()) {
             photosByTagIndex.put(index, new HashSet<>());
         }
 
-        System.out.println("LA2 !");
+        System.out.println("Mapping initialized");
 
         for (Photo photo : photos) {
             IntOpenHashSet sets = new IntOpenHashSet(photo.tags.size());
@@ -52,6 +52,6 @@ public final class TagMapping {
             }
         }
 
-        System.out.println("LA3 !");
+        System.out.println("Mapping done");
     }
 }
