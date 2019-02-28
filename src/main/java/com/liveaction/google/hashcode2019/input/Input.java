@@ -52,4 +52,12 @@ public final class Input {
 
         return new Input(photoNumber, photos);
     }
+
+    public int getPhotoNumber() {
+        return photoNumber;
+    }
+
+    public void setPhotoNumber(int photoNumber) {
+        this.photoNumber = photoNumber;
+    }
 }
