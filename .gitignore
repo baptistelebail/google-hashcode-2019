@@ -51,6 +51,7 @@ nbactions.xml
 nbproject/
 
 *.tar.gz
+*.out
 
 # Maven
 target

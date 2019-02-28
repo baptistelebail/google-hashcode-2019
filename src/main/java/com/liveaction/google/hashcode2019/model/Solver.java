@@ -14,7 +14,7 @@ import java.util.stream.IntStream;
 
 public class Solver {
 
-    public static final int LIMIT_COMPARE_PHOTO = 100;
+    public static final int LIMIT_COMPARE_PHOTO = 40;
 
     public static int score(List<Slide> solve) {
         return Flux.fromIterable(solve)

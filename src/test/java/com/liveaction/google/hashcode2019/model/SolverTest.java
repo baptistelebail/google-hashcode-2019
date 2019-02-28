@@ -38,6 +38,56 @@ public class SolverTest {
         System.out.println(Solver.score(solve));
     }
 
+
+
+    @Test
+    public void solve1() throws IOException {
+        Solver solver = new Solver();
+        Path path = Paths.get("b_lovely_landscapes.txt");
+        Input input = Input.fromFile(path);
+        List<Slide> solve = solver.solve(input.getPhotos());
+        System.out.println(solve);
+        OutputWriter.writeOutput(solve, path);
+    }
+
+
+
+
+    @Test
+    public void solve2() throws IOException {
+        Solver solver = new Solver();
+        Path path = Paths.get("c_memorable_moments.txt");
+        Input input = Input.fromFile(path);
+        List<Slide> solve = solver.solve(input.getPhotos());
+        System.out.println(solve);
+        OutputWriter.writeOutput(solve, path);
+    }
+
+
+
+
+    @Test
+    public void solve3() throws IOException {
+        Solver solver = new Solver();
+        Path path = Paths.get("d_pet_pictures.txt");
+        Input input = Input.fromFile(path);
+        List<Slide> solve = solver.solve(input.getPhotos());
+        System.out.println(solve);
+        OutputWriter.writeOutput(solve, path);
+    }
+
+
+    @Test
+    public void solve4() throws IOException {
+        Solver solver = new Solver();
+        Path path = Paths.get("e_shiny_selfies.txt");
+        Input input = Input.fromFile(path);
+        List<Slide> solve = solver.solve(input.getPhotos());
+        System.out.println(solve);
+        OutputWriter.writeOutput(solve, path);
+    }
+
+
     @Test
     public void shouldMergeVerticals() {
         int tag1 = 0;
