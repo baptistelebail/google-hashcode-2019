@@ -39,7 +39,7 @@ public class SolverTest {
 
 
     @Test
-    public void solve1() throws IOException {
+    public void solveB() throws IOException {
         Solver solver = new Solver();
         Path path = Paths.get("b_lovely_landscapes.txt");
         Input input = Input.fromFile(path);
@@ -76,7 +76,7 @@ public class SolverTest {
 
 
     @Test
-    public void solve2() throws IOException {
+    public void solveC() throws IOException {
         Solver solver = new Solver();
         Path path = Paths.get("c_memorable_moments.txt");
         Input input = Input.fromFile(path);
@@ -90,7 +90,7 @@ public class SolverTest {
 
 
     @Test
-    public void solve3() throws IOException {
+    public void solveD() throws IOException {
         Solver solver = new Solver();
         Path path = Paths.get("d_pet_pictures.txt");
         Input input = Input.fromFile(path);
@@ -102,7 +102,7 @@ public class SolverTest {
 
 
     @Test
-    public void solve4() throws IOException {
+    public void solveE() throws IOException {
         Solver solver = new Solver();
         Path path = Paths.get("e_shiny_selfies.txt");
         Input input = Input.fromFile(path);

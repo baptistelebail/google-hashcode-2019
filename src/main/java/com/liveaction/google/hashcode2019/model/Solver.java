@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedSet;
 
 public class Solver {
     private TagMapping tagMapping;
@@ -41,18 +42,29 @@ public class Solver {
     private void solveR(List<Slide> slideshow, List<Slide> others, int optimalParam) {
         while (!others.isEmpty()) {
             Slide lastSlide = slideshow.get(slideshow.size() - 1);
-            Slide optimal = optimal(lastSlide, others, optimalParam);
+            Slide optimal = optimal2(lastSlide, others, optimalParam);
             slideshow.add(optimal);
             others.remove(optimal);
         }
     }
 
     private Slide optimal2(Slide lastSlide, List<Slide> others, int optimalParam) {
-        for (Integer tag : lastSlide.tags()) {
-
+        Slide foundSlide = lastSlide.tags().stream()
+                .flatMap(integer -> tagMapping.slidesByTagIndex[integer].stream()
+                        .map(slide -> Maps.immutableEntry(Math.abs(slide.tags().size() - lastSlide.tags().size()), slide))
+                        .sorted(Comparator.comparing(Map.Entry::getKey))
+                        .limit(1000)
+                        .map(Map.Entry::getValue)
+                )
+                .limit(50000)
+                .map(slide -> Maps.immutableEntry(slide, score(slide, lastSlide)))
+                .max(Comparator.comparingInt(Map.Entry::getValue))
+                .map(Map.Entry::getKey)
+                .orElse(others.get(0));
+        for (Integer tag : foundSlide.tags()) {
+            tagMapping.slidesByTagIndex[tag].remove(foundSlide);
         }
-//        tagMapping.indexedFlatSlides
-        return null;
+        return foundSlide;
     }
 
     private Slide optimal(Slide lastSlide, List<Slide> others, int optimalParam) {

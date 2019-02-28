@@ -13,7 +13,7 @@ public final class TagMapping {
     public static final int LIMIT_COMPARE_PHOTO = 1000;
 
     public final Object2IntMap<String> tagByIndex;
-    public SortedSet<Slide>[] photosByTagIndex;
+    public SortedSet<Slide>[] slidesByTagIndex;
     public final List<Slide> flatSlides;
     public Set<IndexedPhoto> indexedPhotos;
 
@@ -58,10 +58,10 @@ public final class TagMapping {
             }
         }
 
-        photosByTagIndex = new SortedSet[val];
+        slidesByTagIndex = new SortedSet[val];
 
         for (int index : tagByIndex.values()) {
-            photosByTagIndex[index] = new TreeSet<>(tmp[index]);
+            slidesByTagIndex[index] = new TreeSet<>(tmp[index]);
         }
 
     }
