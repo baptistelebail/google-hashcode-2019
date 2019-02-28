@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.SortedSet;
 
 public class Solver {
@@ -26,20 +27,23 @@ public class Solver {
 
         tagMapping = new TagMapping(photos);
 
-        List<Slide> slides = Lists.newArrayList(tagMapping.flatSlides);
+        Set<Slide> slides = Sets.newHashSet(tagMapping.flatSlides);
 
         List<Slide> slideshow = Lists.newArrayList();
         if (slides.isEmpty()) {
             return slideshow;
         }
-        Slide slide = slides.get(0);
+        Slide slide = slides.iterator().next();
+        for (Integer tag : slide.tags()) {
+            tagMapping.slidesByTagIndex[tag].remove(slide);
+        }
         slideshow.add(slide);
         slides.remove(slide);
         solveR(slideshow, slides, optimalParam);
         return slideshow;
     }
 
-    private void solveR(List<Slide> slideshow, List<Slide> others, int optimalParam) {
+    private void solveR(List<Slide> slideshow, Set<Slide> others, int optimalParam) {
         while (!others.isEmpty()) {
             Slide lastSlide = slideshow.get(slideshow.size() - 1);
             Slide optimal = optimal2(lastSlide, others, optimalParam);
@@ -48,7 +52,7 @@ public class Solver {
         }
     }
 
-    private Slide optimal2(Slide lastSlide, List<Slide> others, int optimalParam) {
+    private Slide optimal2(Slide lastSlide, Set<Slide> others, int optimalParam) {
         Slide foundSlide = lastSlide.tags().stream()
                 .flatMap(integer -> tagMapping.slidesByTagIndex[integer].stream()
                         .map(slide -> Maps.immutableEntry(Math.abs(slide.tags().size() - lastSlide.tags().size()), slide))
@@ -60,7 +64,7 @@ public class Solver {
                 .map(slide -> Maps.immutableEntry(slide, score(slide, lastSlide)))
                 .max(Comparator.comparingInt(Map.Entry::getValue))
                 .map(Map.Entry::getKey)
-                .orElse(others.get(0));
+                .orElse(others.iterator().next());
         for (Integer tag : foundSlide.tags()) {
             tagMapping.slidesByTagIndex[tag].remove(foundSlide);
         }
