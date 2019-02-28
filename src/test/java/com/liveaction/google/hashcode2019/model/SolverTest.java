@@ -1,5 +1,6 @@
 package com.liveaction.google.hashcode2019.model;
 
+import com.google.common.collect.Sets;
 import com.liveaction.google.hashcode2019.input.Input;
 import com.liveaction.google.hashcode2019.output.writer.OutputWriter;
 import org.junit.Test;
@@ -8,6 +9,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Set;
 
 public class SolverTest {
 
@@ -36,38 +38,39 @@ public class SolverTest {
 
 
 
-//    @Test
-//    public void solve1() throws IOException {
-//        Solver solver = new Solver();
-//        Path path = Paths.get("b_lovely_landscapes.txt");
-//        Input input = Input.fromFile(path);
-//        List<Slide> solve = solver.solve(input.getPhotos());
-//        System.out.println(solve);
-//        OutputWriter.writeOutput(solve, path);
-//    }
+    @Test
+    public void solve1() throws IOException {
+        Solver solver = new Solver();
+        Path path = Paths.get("b_lovely_landscapes.txt");
+        Input input = Input.fromFile(path);
+        List<Slide> solve = solver.solve(input.getPhotos());
+        System.out.println(solve);
+        System.out.println(Solver.score(solve));
+        OutputWriter.writeOutput(solve, path);
+    }
 
-//    @Test
-//    public void showB() throws IOException {
-//        Solver solver = new Solver();
-//        Path path = Paths.get("b_lovely_landscapes.txt");
-//        Input input = Input.fromFile(path);
-//        Set<Photo> photos = input.getPhotos();
-//
-//        new TagMapping(photos);
-//
-//        Set<String> tags = Sets.newHashSet();
-//        int count = 0;
-//        for (Photo photo : photos) {
-//            for (String tag : photo.tags) {
-//                tags.add(tag);
-//                count++;
-//            }
-//        }
-//
-//        System.out.println("count "+count);
-//        System.out.println("tag size "+tags.size());
-//
-//    }
+    @Test
+    public void showB() throws IOException {
+        Solver solver = new Solver();
+        Path path = Paths.get("b_lovely_landscapes.txt");
+        Input input = Input.fromFile(path);
+        Set<Photo> photos = input.getPhotos();
+
+        new TagMapping(photos);
+
+        Set<String> tags = Sets.newHashSet();
+        int count = 0;
+        for (Photo photo : photos) {
+            for (String tag : photo.tags) {
+                tags.add(tag);
+                count++;
+            }
+        }
+
+        System.out.println("count "+count);
+        System.out.println("tag size "+tags.size());
+
+    }
 
 
 
