@@ -7,7 +7,14 @@ import java.util.List;
 public class Solver {
 
     public List<Slide> solve(List<Photo> photos) {
-        
+        List<Slide>  slides = flatSlides(photos);
+        if (photos.isEmpty())  {
+            return ImmmutableList();
+        }
+    }
+
+    private List<Slide> flatSlides(List<Photo> photos) {
+        return null;
     }
 
     int score(Slide s1, Slide s2) {
