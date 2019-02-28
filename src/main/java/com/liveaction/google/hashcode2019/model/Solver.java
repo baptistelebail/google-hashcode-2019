@@ -7,12 +7,12 @@ import com.google.common.collect.Sets;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
-import reactor.core.publisher.Flux;
 
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.IntStream;
 
 public class Solver {
 
@@ -57,10 +57,22 @@ public class Solver {
     }
 
     private List<Slide> mergeVerticalsPhoto(List<Photo> photos) {
-        return Flux.fromIterable(photos)
-                .buffer(2)
-                .filter(buffer -> buffer.size() == 2)
-                .map(buffer -> new Slide(buffer.get(0), buffer.get(1))).collect(ImmutableList.toImmutableList()).block();
+        ImmutableList.Builder<Slide> res = ImmutableList.builder();
+        List<Photo> remainingPhotos = Lists.newArrayList(photos);
+        while (remainingPhotos.size() > 1) {
+            Photo firstPhoto = remainingPhotos.remove(0);
+            int bestPair = bestPair(firstPhoto, remainingPhotos);
+            res.add(new Slide(firstPhoto, remainingPhotos.remove(bestPair)));
+        }
+        return res.build();
+    }
+
+    private int bestPair(Photo firstPhoto, List<Photo> remainingPhotos) {
+        return IntStream.range(0, remainingPhotos.size())
+                .mapToObj(photo -> Maps.immutableEntry(photo, Sets.intersection(firstPhoto.tags, remainingPhotos.get(photo).tags).size()))
+                .min(Comparator.comparingInt(Map.Entry::getValue))
+                .map(Map.Entry::getKey)
+                .get();
     }
 
     int score(Slide s1, Slide s2) {
