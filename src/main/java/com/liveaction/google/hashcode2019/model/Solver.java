@@ -56,7 +56,7 @@ public class Solver {
             }
         }
 
-        return builder.addAll(mergeVerticalsPhoto(photos)).build();
+        return builder.addAll(mergeVerticalsPhoto(verticals.build())).build();
     }
 
     private List<Slide> mergeVerticalsPhoto(Collection<Photo> photos) {
