@@ -4,11 +4,12 @@ import com.google.common.base.MoreObjects;
 import it.unimi.dsi.fastutil.ints.IntSet;
 
 import java.util.Objects;
+import java.util.Set;
 
 public final class IndexedPhoto {
     public final int index;
 
-    public final IntSet tags;
+    public final Set<Integer> tags;
 
     public final boolean horizontal;
 

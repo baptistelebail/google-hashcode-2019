@@ -3,6 +3,9 @@ package com.liveaction.google.hashcode2019.model;
 import com.google.common.collect.Lists;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
+import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 
 import java.util.Collection;
 import java.util.List;
@@ -43,12 +46,21 @@ public class Solver {
     }
 
     public static Collection<IndexedPhoto> indexPhoto(Collection<Photo> photos) {
-//        Object2IntMap<String> index = new Object2IntOpenHashMap<>();
-//        for (Photo photo : photos) {
-//
-//        }
-//        index.containsKey()
-        return ImmutableList.of();
+        int val = 0;
+        Object2IntMap<String> index = new Object2IntOpenHashMap<>();
+        for (Photo photo : photos) {
+            for (String tag : photo.tags) {
+                if (!index.containsKey(tag)) {
+                    index.put(tag, val++);
+                }
+            }
+        }
+        return photos.stream()
+                .map(photo -> {
+                    IntOpenHashSet sets = new IntOpenHashSet(photo.tags.size());
+                    photo.tags.forEach(s -> sets.add(index.getInt(s)));
+                    return new IndexedPhoto(photo.index, sets, photo.horizontal);
+                }).collect(ImmutableList.toImmutableList());
     }
 
 }
