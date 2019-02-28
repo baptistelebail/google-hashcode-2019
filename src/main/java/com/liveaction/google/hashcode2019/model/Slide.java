@@ -6,7 +6,7 @@ import com.google.common.collect.Sets;
 import java.util.Objects;
 import java.util.Set;
 
-public class Slide {
+public class Slide implements Comparable<Slide> {
 
     public final IndexedPhoto photo1;
     public final IndexedPhoto photo2;
@@ -50,5 +50,10 @@ public class Slide {
                 .add("photo1", photo1)
                 .add("photo2", photo2)
                 .toString();
+    }
+
+    @Override
+    public int compareTo(Slide o) {
+        return Integer.compare(tags.size(), o.tags.size());
     }
 }

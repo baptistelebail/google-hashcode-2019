@@ -1,22 +1,11 @@
 package com.liveaction.google.hashcode2019.model;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSortedSet;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
-import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import com.google.common.collect.*;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedSet;
+import java.util.*;
 import java.util.stream.IntStream;
 
 public final class TagMapping {
@@ -24,11 +13,10 @@ public final class TagMapping {
     public static final int LIMIT_COMPARE_PHOTO = 1000;
 
     public final Object2IntMap<String> tagByIndex;
-    public final Set<IndexedPhoto>[] photosByTagIndex;
+    public SortedSet<Slide>[] photosByTagIndex;
     public final List<Slide> flatSlides;
     public Set<IndexedPhoto> indexedPhotos;
 
-    public final Int2ObjectMap<SortedSet<Slide>> indexedFlatSlides;
 
     public TagMapping(Collection<Photo> photos) {
         tagByIndex = new Object2IntOpenHashMap<>();
@@ -47,42 +35,35 @@ public final class TagMapping {
 
         System.out.println("Tags indexed !");
 
-        Set<IndexedPhoto>[] tmp = new Set[val];
-        for (int index : tagByIndex.values()) {
-            tmp[index] = new HashSet<>();
-        }
-
-        System.out.println("Mapping initialized");
-
         for (Photo photo : photos) {
             IntOpenHashSet sets = new IntOpenHashSet(photo.tags.size());
             photo.tags.forEach(tag -> sets.add(tagByIndex.getInt(tag)));
             IndexedPhoto indexedPhoto = new IndexedPhoto(photo.index, sets, photo.horizontal);
 
             indexedPhotos.add(indexedPhoto);
-
-            for (String tag : photo.tags) {
-                tmp[tagByIndex.getInt(tag)].add(indexedPhoto);
-            }
         }
-
-        photosByTagIndex = new Set[val];
-        for (int index : tagByIndex.values()) {
-            photosByTagIndex[index] = ImmutableSortedSet.copyOf(tmp[index]);
-        }
-
-        System.out.println("Mapping done");
-
 
         flatSlides = flatSlides(indexedPhotos);
 
 
-        indexedFlatSlides = index(flatSlides);
+        Set<Slide>[] tmp = new Set[val];
 
-    }
+        for (int i = 0; i < tagByIndex.size(); i++) {
+            tmp[i] = new HashSet<>();
+        }
 
-    private Int2ObjectMap<SortedSet<Slide>> index(List<Slide> flatSlides) {
-        return null;
+        for (Slide slide : flatSlides) {
+            for (int tag : slide.tags()) {
+                tmp[tag].add(slide);
+            }
+        }
+
+        photosByTagIndex = new SortedSet[val];
+
+        for (int index : tagByIndex.values()) {
+            photosByTagIndex[index] = new TreeSet<>(tmp[index]);
+        }
+
     }
 
 
