@@ -1,14 +1,17 @@
 package com.liveaction.google.hashcode2019.model;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 public class Solver {
 
@@ -22,16 +25,20 @@ public class Solver {
     private void solveR(List<Slide> slideshow, List<Slide> others) {
         if (!others.isEmpty()) {
             Slide lastSlide = slideshow.get(slideshow.size() - 1);
-            int optIndex = optimal(lastSlide, others);
-            Slide optimal = others.get(optIndex);
+            Slide optimal = optimal(lastSlide, others);
             slideshow.add(optimal);
-            others.remove(optIndex);
+            others.remove(optimal);
             solveR(slideshow, others);
         }
     }
 
-    private int optimal(Slide lastSlide, List<Slide> others) {
-        return 0;
+    private Slide optimal(Slide lastSlide, List<Slide> others) {
+        return others.stream()
+                .map(slide -> Maps.immutableEntry(slide, score(slide, lastSlide)))
+                .sorted(Comparator.comparingInt(Map.Entry::getValue))
+                .map(Map.Entry::getKey)
+                .findFirst()
+                .get();
     }
 
     private List<Slide> flatSlides(List<Photo> photos) {
