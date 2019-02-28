@@ -1,6 +1,9 @@
 package com.liveaction.google.hashcode2019.model;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
+
+import java.util.Collection;
 
 public class Solver {
 
@@ -13,6 +16,15 @@ public class Solver {
         Sets.SetView<String> difference1 = Sets.difference(s1.tags(), s2.tags());
         Sets.SetView<String> difference2 = Sets.difference(s2.tags(), s1.tags());
         return Math.min(intersection.size(), Math.min(difference1.size(), difference2.size()));
+    }
+
+    public static Collection<IndexedPhoto> indexPhoto(Collection<Photo> photos) {
+//        Object2IntMap<String> index = new Object2IntOpenHashMap<>();
+//        for (Photo photo : photos) {
+//
+//        }
+//        index.containsKey()
+        return ImmutableList.of();
     }
 
 }
