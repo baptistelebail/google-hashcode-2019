@@ -13,5 +13,6 @@ public class InputTest {
         Path pathToFile = Paths.get(new URI("a_example.txt"));
         final Input input = Input.fromFile(pathToFile);
 
+        System.out.println();
     }
 }

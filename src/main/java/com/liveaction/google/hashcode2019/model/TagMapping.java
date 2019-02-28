@@ -26,18 +26,21 @@ public final class TagMapping {
         for (Photo photo : photos) {
             for (String tag : photo.tags) {
                 if (!tagByIndex.containsKey(tag)) {
-                    tagByIndex.put(tag, val++);
+                    tagByIndex.put(tag, val);
+                    photosByTagIndex.computeIfAbsent(val, ignored -> new HashSet<>());
+                    val++;
                 }
             }
-
-            photosByTagIndex.computeIfAbsent(val, ignored -> new HashSet<>());
 
             IntOpenHashSet sets = new IntOpenHashSet(photo.tags.size());
             photo.tags.forEach(tag -> sets.add(tagByIndex.getInt(tag)));
             IndexedPhoto indexedPhoto = new IndexedPhoto(photo.index, sets, photo.horizontal);
 
             indexedPhotos.add(indexedPhoto);
-            photosByTagIndex.get(val).add(indexedPhoto);
+
+            for (String tag : photo.tags) {
+                photosByTagIndex.get(tagByIndex.getInt(tag)).add(indexedPhoto);
+            }
         }
     }
 }
