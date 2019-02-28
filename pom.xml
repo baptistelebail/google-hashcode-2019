@@ -32,6 +32,11 @@
 			<artifactId>fastutil</artifactId>
 			<version>8.1.0</version>
 		</dependency>
+		<dependency>
+			<groupId>io.projectreactor</groupId>
+			<artifactId>reactor-core</artifactId>
+			<version>3.2.5.RELEASE</version>
+		</dependency>
 
 		<dependency>
 			<groupId>commons-io</groupId>

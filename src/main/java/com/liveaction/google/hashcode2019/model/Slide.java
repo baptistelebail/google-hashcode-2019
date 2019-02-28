@@ -10,6 +10,9 @@ public class Slide {
     public final Photo photo2;
     private final Set<String> tags;
 
+    public Slide(Photo photo) {
+        this(photo, null);
+    }
     public Slide(Photo photo1, Photo photo2) {
         this.photo1 = photo1;
         this.photo2 = photo2;

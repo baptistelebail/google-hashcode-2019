@@ -7,6 +7,7 @@ import com.google.common.collect.Sets;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
+import reactor.core.publisher.Flux;
 
 import java.util.Collection;
 import java.util.Comparator;
@@ -42,7 +43,24 @@ public class Solver {
     }
 
     private List<Slide> flatSlides(List<Photo> photos) {
-        return null;
+        ImmutableList.Builder<Slide> builder = ImmutableList.builder();
+        ImmutableList.Builder<Photo> verticals = ImmutableList.builder();
+        for (Photo photo : photos) {
+            if (photo.horizontal) {
+                builder.add(new Slide(photo));
+            } else {
+                verticals.add(photo);
+            }
+        }
+
+        return builder.addAll(mergeVerticalsPhoto(photos)).build();
+    }
+
+    private List<Slide> mergeVerticalsPhoto(List<Photo> photos) {
+        return Flux.fromIterable(photos)
+                .buffer(2)
+                .filter(buffer -> buffer.size() == 2)
+                .map(buffer -> new Slide(buffer.get(0), buffer.get(1))).collect(ImmutableList.toImmutableList()).block();
     }
 
     int score(Slide s1, Slide s2) {
