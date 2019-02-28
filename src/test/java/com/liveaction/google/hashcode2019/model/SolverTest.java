@@ -29,11 +29,13 @@ public class SolverTest {
     @Test
     public void solve() throws IOException {
         Solver solver = new Solver();
-        Path path = Paths.get("a_example.txt");
+        Path path = Paths.get("e_shiny_selfies.txt");
         Input input = Input.fromFile(path);
         List<Slide> solve = solver.solve(input.getPhotos());
         System.out.println(solve);
         OutputWriter.writeOutput(solve, path);
+
+        System.out.println(Solver.score(solve));
     }
 
     @Test
