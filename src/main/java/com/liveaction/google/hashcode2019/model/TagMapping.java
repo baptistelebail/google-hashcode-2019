@@ -28,7 +28,7 @@ public final class TagMapping {
     public final List<Slide> flatSlides;
     public Set<IndexedPhoto> indexedPhotos;
 
-    private final Int2ObjectMap<SortedSet<Slide>> indexedFlatSlides;
+    public final Int2ObjectMap<SortedSet<Slide>> indexedFlatSlides;
 
     public TagMapping(Collection<Photo> photos) {
         tagByIndex = new Object2IntOpenHashMap<>();

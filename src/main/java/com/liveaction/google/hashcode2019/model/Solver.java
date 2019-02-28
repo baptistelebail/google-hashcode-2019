@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 
 public class Solver {
+    private TagMapping tagMapping;
+
     public static int score(List<Slide> solve) {
         return Flux.fromIterable(solve)
                 .buffer(2, 1)
@@ -21,7 +23,7 @@ public class Solver {
 
     public List<Slide> solve(Collection<Photo> photos, int verticalParam, int optimalParam) {
 
-        TagMapping tagMapping = new TagMapping(photos);
+        tagMapping = new TagMapping(photos);
 
         List<Slide> slides = Lists.newArrayList(tagMapping.flatSlides);
 
@@ -39,12 +41,19 @@ public class Solver {
     private void solveR(List<Slide> slideshow, List<Slide> others, int optimalParam) {
         while (!others.isEmpty()) {
             Slide lastSlide = slideshow.get(slideshow.size() - 1);
-            Slide optimal = optimal(lastSlide, others, optimalParam);
+            Slide optimal = optimal2(lastSlide, others, optimalParam);
             slideshow.add(optimal);
             others.remove(optimal);
         }
     }
 
+    private Slide optimal2(Slide lastSlide, List<Slide> others, int optimalParam) {
+        for (Integer tag : lastSlide.tags()) {
+            
+        }
+        tagMapping.indexedFlatSlides
+    }
+    
     private Slide optimal(Slide lastSlide, List<Slide> others, int optimalParam) {
         Slide val = others.stream()
                 .limit(optimalParam)
