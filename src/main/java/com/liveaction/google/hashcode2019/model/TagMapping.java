@@ -18,7 +18,6 @@ public final class TagMapping {
 
     public TagMapping(Collection<Photo> photos) {
         tagByIndex = new Object2IntOpenHashMap<>();
-        photosByTagIndex = new Int2ObjectArrayMap<>();
         indexedPhotos = new HashSet<>();
 
         int val = 0;
@@ -31,9 +30,15 @@ public final class TagMapping {
             }
         }
 
+        photosByTagIndex = new Int2ObjectArrayMap<>(tagByIndex.size());
+
+        System.out.println("LA1 !");
+
         for (int index : tagByIndex.values()) {
-            photosByTagIndex.computeIfAbsent(index, ignored -> new HashSet<>());
+            photosByTagIndex.put(index, new HashSet<>());
         }
+
+        System.out.println("LA2 !");
 
         for (Photo photo : photos) {
             IntOpenHashSet sets = new IntOpenHashSet(photo.tags.size());
@@ -46,5 +51,7 @@ public final class TagMapping {
                 photosByTagIndex.get(tagByIndex.getInt(tag)).add(indexedPhoto);
             }
         }
+
+        System.out.println("LA3 !");
     }
 }
