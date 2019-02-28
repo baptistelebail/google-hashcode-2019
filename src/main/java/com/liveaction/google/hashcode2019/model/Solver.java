@@ -2,10 +2,12 @@ package com.liveaction.google.hashcode2019.model;
 
 import com.google.common.collect.Sets;
 
+import java.util.List;
+
 public class Solver {
 
-    public void solve() {
-
+    public List<Slide> solve(List<Photo> photos) {
+        
     }
 
     int score(Slide s1, Slide s2) {
