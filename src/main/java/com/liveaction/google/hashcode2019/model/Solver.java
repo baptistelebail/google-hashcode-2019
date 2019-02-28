@@ -13,9 +13,6 @@ import java.util.Map;
 import java.util.stream.IntStream;
 
 public class Solver {
-
-    public static final int LIMIT_COMPARE_PHOTO = 1000;
-
     public static int score(List<Slide> solve) {
         return Flux.fromIterable(solve)
                 .buffer(2, 1)
@@ -24,11 +21,11 @@ public class Solver {
                 .reduce(Integer::sum).block();
     }
 
-    public List<Slide> solve(Collection<Photo> photos) {
+    public List<Slide> solve(Collection<Photo> photos, int verticalParam, int optimalParam) {
 
         TagMapping tagMapping = new TagMapping(photos);
 
-        List<Slide> slides = Lists.newArrayList(flatSlides(tagMapping.indexedPhotos));
+        List<Slide> slides = Lists.newArrayList(flatSlides(tagMapping.indexedPhotos, verticalParam));
         List<Slide> slideshow = Lists.newArrayList();
         if (slides.isEmpty()) {
             return slideshow;
@@ -36,22 +33,22 @@ public class Solver {
         Slide slide = slides.get(0);
         slideshow.add(slide);
         slides.remove(slide);
-        solveR(slideshow, slides);
+        solveR(slideshow, slides, optimalParam);
         return slideshow;
     }
 
-    private void solveR(List<Slide> slideshow, List<Slide> others) {
+    private void solveR(List<Slide> slideshow, List<Slide> others, int optimalParam) {
         while (!others.isEmpty()) {
             Slide lastSlide = slideshow.get(slideshow.size() - 1);
-            Slide optimal = optimal(lastSlide, others, LIMIT_COMPARE_PHOTO);
+            Slide optimal = optimal(lastSlide, others, optimalParam);
             slideshow.add(optimal);
             others.remove(optimal);
         }
     }
 
-    private Slide optimal(Slide lastSlide, List<Slide> others, int limit) {
+    private Slide optimal(Slide lastSlide, List<Slide> others, int optimalParam) {
         Slide val = others.stream()
-                .limit(limit)
+                .limit(optimalParam)
                 .map(slide -> Maps.immutableEntry(slide, score(slide, lastSlide)))
                 .max(Comparator.comparingInt(Map.Entry::getValue))
                 .map(Map.Entry::getKey)
@@ -59,7 +56,7 @@ public class Solver {
         return val;
     }
 
-    private List<Slide> flatSlides(Collection<IndexedPhoto> photos) {
+    private List<Slide> flatSlides(Collection<IndexedPhoto> photos, int verticalParam) {
         ImmutableList.Builder<Slide> builder = ImmutableList.builder();
         ImmutableList.Builder<IndexedPhoto> verticals = ImmutableList.builder();
         for (IndexedPhoto photo : photos) {
@@ -70,24 +67,24 @@ public class Solver {
             }
         }
 
-        return builder.addAll(mergeVerticalsPhoto(verticals.build())).build();
+        return builder.addAll(mergeVerticalsPhoto(verticals.build(), verticalParam)).build();
     }
 
 
-    static List<Slide> mergeVerticalsPhoto(Collection<IndexedPhoto> photos) {
+    static List<Slide> mergeVerticalsPhoto(Collection<IndexedPhoto> photos, int verticalParam) {
         ImmutableList.Builder<Slide> res = ImmutableList.builder();
         List<IndexedPhoto> remainingPhotos = Lists.newArrayList(photos);
         while (remainingPhotos.size() > 1) {
             IndexedPhoto firstPhoto = remainingPhotos.remove(0);
-            int bestPair = bestPair(firstPhoto, remainingPhotos);
+            int bestPair = bestPair(firstPhoto, remainingPhotos, verticalParam);
             res.add(new Slide(firstPhoto, remainingPhotos.remove(bestPair)));
         }
         return res.build();
     }
 
-    private static int bestPair(IndexedPhoto firstPhoto, List<IndexedPhoto> remainingPhotos) {
+    private static int bestPair(IndexedPhoto firstPhoto, List<IndexedPhoto> remainingPhotos, int verticalParam) {
         return IntStream.range(0, remainingPhotos.size())
-                .limit(LIMIT_COMPARE_PHOTO)
+                .limit(verticalParam)
                 .mapToObj(photo -> Maps.immutableEntry(photo, Sets.intersection(firstPhoto.tags, remainingPhotos.get(photo).tags).size()))
                 .min(Comparator.comparingInt(Map.Entry::getValue))
                 .map(Map.Entry::getKey)

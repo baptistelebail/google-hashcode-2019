@@ -1,6 +1,5 @@
 package com.liveaction.google.hashcode2019.model;
 
-import com.google.common.collect.Sets;
 import com.liveaction.google.hashcode2019.input.Input;
 import com.liveaction.google.hashcode2019.output.writer.OutputWriter;
 import org.junit.Test;
@@ -9,7 +8,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Set;
 
 public class SolverTest {
 
@@ -29,7 +27,7 @@ public class SolverTest {
         Solver solver = new Solver();
         Path path = Paths.get("a_example.txt");
         Input input = Input.fromFile(path);
-        List<Slide> solve = solver.solve(input.getPhotos());
+        List<Slide> solve = solver.solve(input.getPhotos(), 1000 ,1000);
         System.out.println(solve);
         OutputWriter.writeOutput(solve, path);
 
@@ -43,34 +41,34 @@ public class SolverTest {
         Solver solver = new Solver();
         Path path = Paths.get("b_lovely_landscapes.txt");
         Input input = Input.fromFile(path);
-        List<Slide> solve = solver.solve(input.getPhotos());
+        List<Slide> solve = solver.solve(input.getPhotos(), 50, 50);
         System.out.println(solve);
         System.out.println(Solver.score(solve));
         OutputWriter.writeOutput(solve, path);
     }
 
-    @Test
-    public void showB() throws IOException {
-        Solver solver = new Solver();
-        Path path = Paths.get("b_lovely_landscapes.txt");
-        Input input = Input.fromFile(path);
-        Set<Photo> photos = input.getPhotos();
-
-        new TagMapping(photos);
-
-        Set<String> tags = Sets.newHashSet();
-        int count = 0;
-        for (Photo photo : photos) {
-            for (String tag : photo.tags) {
-                tags.add(tag);
-                count++;
-            }
-        }
-
-        System.out.println("count "+count);
-        System.out.println("tag size "+tags.size());
-
-    }
+//    @Test
+//    public void showB() throws IOException {
+//        Solver solver = new Solver();
+//        Path path = Paths.get("b_lovely_landscapes.txt");
+//        Input input = Input.fromFile(path);
+//        Set<Photo> photos = input.getPhotos();
+//
+//        new TagMapping(photos);
+//
+//        Set<String> tags = Sets.newHashSet();
+//        int count = 0;
+//        for (Photo photo : photos) {
+//            for (String tag : photo.tags) {
+//                tags.add(tag);
+//                count++;
+//            }
+//        }
+//
+//        System.out.println("count "+count);
+//        System.out.println("tag size "+tags.size());
+//
+//    }
 
 
 
@@ -80,7 +78,7 @@ public class SolverTest {
         Solver solver = new Solver();
         Path path = Paths.get("c_memorable_moments.txt");
         Input input = Input.fromFile(path);
-        List<Slide> solve = solver.solve(input.getPhotos());
+        List<Slide> solve = solver.solve(input.getPhotos(), 50 ,50);
         System.out.println(solve);
         System.out.println(Solver.score(solve));
         OutputWriter.writeOutput(solve, path);
@@ -94,7 +92,7 @@ public class SolverTest {
         Solver solver = new Solver();
         Path path = Paths.get("d_pet_pictures.txt");
         Input input = Input.fromFile(path);
-        List<Slide> solve = solver.solve(input.getPhotos());
+        List<Slide> solve = solver.solve(input.getPhotos(),50, 50);
         System.out.println(solve);
         System.out.println(Solver.score(solve));
         OutputWriter.writeOutput(solve, path);
@@ -106,7 +104,7 @@ public class SolverTest {
         Solver solver = new Solver();
         Path path = Paths.get("e_shiny_selfies.txt");
         Input input = Input.fromFile(path);
-        List<Slide> solve = solver.solve(input.getPhotos());
+        List<Slide> solve = solver.solve(input.getPhotos(),50 ,50);
         System.out.println(solve);
         System.out.println(Solver.score(solve));
         OutputWriter.writeOutput(solve, path);
