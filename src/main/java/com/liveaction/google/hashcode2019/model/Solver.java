@@ -16,11 +16,17 @@ import java.util.stream.IntStream;
 
 public class Solver {
 
-    public List<Slide> solve(List<Photo> photos) {
-        List<Slide> slides = flatSlides(photos);
-        List<Slide> list = Lists.newArrayList();
-        solveR(slides, list);
-        return list;
+    public List<Slide> solve(Collection<Photo> photos) {
+        List<Slide> slides = Lists.newArrayList(flatSlides(photos));
+        List<Slide> slideshow = Lists.newArrayList();
+        if (slides.isEmpty()) {
+            return slideshow;
+        }
+        Slide slide = slides.get(0);
+        slideshow.add(slide);
+        slides.remove(slide);
+        solveR(slideshow, slides);
+        return slideshow;
     }
 
     private void solveR(List<Slide> slideshow, List<Slide> others) {
@@ -42,7 +48,7 @@ public class Solver {
                 .get();
     }
 
-    private List<Slide> flatSlides(List<Photo> photos) {
+    private List<Slide> flatSlides(Collection<Photo> photos) {
         ImmutableList.Builder<Slide> builder = ImmutableList.builder();
         ImmutableList.Builder<Photo> verticals = ImmutableList.builder();
         for (Photo photo : photos) {
@@ -56,7 +62,7 @@ public class Solver {
         return builder.addAll(mergeVerticalsPhoto(photos)).build();
     }
 
-    private List<Slide> mergeVerticalsPhoto(List<Photo> photos) {
+    private List<Slide> mergeVerticalsPhoto(Collection<Photo> photos) {
         ImmutableList.Builder<Slide> res = ImmutableList.builder();
         List<Photo> remainingPhotos = Lists.newArrayList(photos);
         while (remainingPhotos.size() > 1) {

@@ -21,6 +21,10 @@ public final class Input {
         this.photos = new HashSet<>(photos);
     }
 
+    public Set<Photo> getPhotos() {
+        return photos;
+    }
+
     public static Input fromFile(Path path) throws IOException {
         // Set of photos to pass to constructor
         final Set<Photo> photos = new HashSet<>();
