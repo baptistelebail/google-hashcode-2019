@@ -41,7 +41,7 @@ public class Solver {
     private void solveR(List<Slide> slideshow, List<Slide> others, int optimalParam) {
         while (!others.isEmpty()) {
             Slide lastSlide = slideshow.get(slideshow.size() - 1);
-            Slide optimal = optimal2(lastSlide, others, optimalParam);
+            Slide optimal = optimal(lastSlide, others, optimalParam);
             slideshow.add(optimal);
             others.remove(optimal);
         }
@@ -49,11 +49,12 @@ public class Solver {
 
     private Slide optimal2(Slide lastSlide, List<Slide> others, int optimalParam) {
         for (Integer tag : lastSlide.tags()) {
-            
+
         }
-        tagMapping.indexedFlatSlides
+//        tagMapping.indexedFlatSlides
+        return null;
     }
-    
+
     private Slide optimal(Slide lastSlide, List<Slide> others, int optimalParam) {
         Slide val = others.stream()
                 .limit(optimalParam)
