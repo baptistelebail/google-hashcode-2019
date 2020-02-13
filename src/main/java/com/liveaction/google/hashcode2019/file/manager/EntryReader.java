@@ -17,6 +17,6 @@ public class EntryReader {
         for(int i = 0; i < nbPizzas; i++) {
             pizzaSizes.add(scanner.nextInt());
         }
-        return new Input(maxSlices, pizzaSizes);
+        return new Input(maxSlices, pizzaSizes, file.getName());
     }
 }
