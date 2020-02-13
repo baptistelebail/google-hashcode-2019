@@ -13,6 +13,9 @@ public final class Output {
     }
 
     public long score() {
-        return 0;
+        return pizzasIds.stream()
+                .map(pizzasIds::getInt)
+                .mapToLong(Long::valueOf)
+                .sum();
     }
 }
