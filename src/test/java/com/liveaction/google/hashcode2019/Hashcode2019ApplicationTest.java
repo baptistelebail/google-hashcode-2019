@@ -1,5 +1,6 @@
 package com.liveaction.google.hashcode2019;
 
+import com.google.common.collect.ImmutableList;
 import com.liveaction.google.hashcode2019.file.manager.EntryReader;
 import com.liveaction.google.hashcode2019.file.manager.OutputWriter;
 import com.liveaction.google.hashcode2019.file.manager.model.Input;
@@ -8,7 +9,6 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class Hashcode2019ApplicationTest {
@@ -21,10 +21,11 @@ public class Hashcode2019ApplicationTest {
 
     @Test
     public void test() throws IOException {
-        Input input = new EntryReader().getInput(new File(A));
-        Output solve = new Solver().solve(input);
-        System.out.println("score : "+solve.score());
-        Path dest = new OutputWriter().writeResult(solve);
-        Files.lines(dest).forEach(line -> System.out.println(line));
+        for (String file : ImmutableList.of(A, B, C, D, E)) {
+            Input input = new EntryReader().getInput(new File(file));
+            Output solve = new Solver().solve(input);
+            System.out.println("score : " + solve.score());
+            Path dest = new OutputWriter().writeResult(solve);
+        }
     }
 }

@@ -9,15 +9,12 @@ public final class Solver {
 
     public Output solve(Input input) {
         int total = 0;
-        int i = input.pizzaSizes.size() -1;
-        IntList pizzasId = new IntArrayList(i);
-        while (total < input.maxSlices && i > 0) {
-            total += input.pizzaSizes.getInt(i);
-            pizzasId.add(i);
-            i--;
-        }
-        if(total > input.maxSlices) {
-            pizzasId.remove(pizzasId.size()-1);
+        IntList pizzasId = new IntArrayList(input.pizzaSizes.size() - 1);
+        for (int i = input.pizzaSizes.size() - 1; i >= 0; i--) {
+            if (total + input.pizzaSizes.getInt(i) <= input.maxSlices) {
+                total += input.pizzaSizes.getInt(i);
+                pizzasId.add(i);
+            }
         }
         return new Output(input, pizzasId);
     }
