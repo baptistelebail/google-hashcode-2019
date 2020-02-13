@@ -14,7 +14,7 @@ public final class Output {
 
     public long score() {
         return pizzasIds.stream()
-                .map(pizzasIds::getInt)
+                .map(input.pizzaSizes::getInt)
                 .mapToLong(Long::valueOf)
                 .sum();
     }

@@ -13,6 +13,7 @@ public class OutputWriter {
     private final static Path DEST = Paths.get("/tmp/hashcode");
 
     public void writeResult(Output output) throws IOException {
+        Files.createDirectories(DEST);
         Path dest = DEST.resolve(output.input.name);
         Files.write(dest, ("" + output.pizzasIds.size()).getBytes());
         Files.write(dest, Joiner.on(" ").join(output.pizzasIds).getBytes());
