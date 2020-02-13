@@ -49,6 +49,7 @@ nb-configuration.xml
 /src/main/resources/jasper/MyReports/*
 nbactions.xml
 nbproject/
+**.tar.gz
 
 # Maven
 target

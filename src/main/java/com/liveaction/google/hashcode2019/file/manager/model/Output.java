@@ -18,4 +18,6 @@ public final class Output {
                 .mapToLong(Long::valueOf)
                 .sum();
     }
+
+
 }

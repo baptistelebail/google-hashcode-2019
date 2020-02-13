@@ -8,6 +8,8 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class Hashcode2019ApplicationTest {
 
@@ -22,6 +24,7 @@ public class Hashcode2019ApplicationTest {
         Input input = new EntryReader().getInput(new File(A));
         Output solve = new Solver().solve(input);
         System.out.println("score : "+solve.score());
-        new OutputWriter().writeResult(solve);
+        Path dest = new OutputWriter().writeResult(solve);
+        Files.lines(dest).forEach(line -> System.out.println(line));
     }
 }
