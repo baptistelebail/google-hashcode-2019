@@ -13,10 +13,9 @@ public class EntryReader {
         Scanner scanner = new Scanner(file);
         int maxSlices = scanner.nextInt();
         int nbPizzas = scanner.nextInt();
-        String[] sizes = scanner.nextLine().split(" ");
         IntArrayList pizzaSizes = new IntArrayList(nbPizzas);
-        for (String s : sizes) {
-            pizzaSizes.add(Integer.parseInt(s));
+        for(int i = 0; i < nbPizzas; i++) {
+            pizzaSizes.add(scanner.nextInt());
         }
         return new Input(maxSlices, pizzaSizes);
     }
