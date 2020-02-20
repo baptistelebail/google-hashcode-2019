@@ -22,7 +22,7 @@ public class Hashcode2019ApplicationTest {
 
     @Test
     public void test() throws IOException {
-        for (String file : ImmutableList.of(F)) {
+        for (String file : ImmutableList.of(C)) {
             Input input = new EntryReader().getInput(new File(file));
             Output solve = new Solver2().solve(input);
             System.out.println("score : " + solve.score());
