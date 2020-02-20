@@ -2,6 +2,7 @@ package com.liveaction.google.hashcode2019.file.manager.model;
 
 import it.unimi.dsi.fastutil.ints.IntList;
 
+import java.util.Collection;
 import java.util.Map;
 
 public final class Output {
@@ -18,8 +19,14 @@ public final class Output {
         this.booksPerLibrary = booksPerLibrary;
     }
 
+    //TODO: if a book is registered too late, do not count it
     public long score() {
-        return 0;
+        return booksPerLibrary.values().stream()
+                .flatMap(Collection::stream)
+                .map(bookId -> input.books[bookId])
+                .reduce((i, j) -> i+j)
+                .map(Integer::longValue)
+                .orElse(0L);
     }
 
 
