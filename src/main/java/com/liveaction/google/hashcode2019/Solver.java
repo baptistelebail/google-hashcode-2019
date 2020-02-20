@@ -1,6 +1,5 @@
 package com.liveaction.google.hashcode2019;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.liveaction.google.hashcode2019.file.manager.model.Input;
@@ -24,16 +23,16 @@ public final class Solver {
         List<Library> libsToParse = Lists.newArrayList(input.libraries);
         int days = input.nbDays;
 
-        while(libsToParse.size() > 0) {
+        while (libsToParse.size() > 0) {
             List<Library> libsToRemove = Lists.newArrayList();
-            for(Library lib : libsToParse) {
-                if (lib.signupDays <= days) {
+            for (Library lib : libsToParse) {
+                if (lib.signupDays >= days) {
                     libsToRemove.add(lib);
                 }
             }
             libsToParse.removeAll(libsToRemove);
             Library bestLib = bestLibrary(libsToParse, days, input.books).orElse(null);
-            if(bestLib == null)            {
+            if (bestLib == null) {
                 System.out.println("ERROR : bestLib should not be null");
                 break;
             }
@@ -61,7 +60,7 @@ public final class Solver {
                 .sorted(Comparator.comparingInt(b -> -books[b]))
                 .collect(Collectors.toList());
         List<Integer> booksToScan;
-        booksToScan = nbBooks > orderedBooks.size() ? orderedBooks : orderedBooks.subList(0, nbBooks);
+        booksToScan = realDays > (orderedBooks.size()-1)/library.parellelScanning ? orderedBooks : orderedBooks.subList(0, realDays*library.parellelScanning);
         Integer totalScore = booksToScan
                 .stream()
                 .reduce((i, j) -> i + j)
@@ -69,6 +68,4 @@ public final class Solver {
 
         return totalScore / library.signupDays;
     }
-
-
 }
