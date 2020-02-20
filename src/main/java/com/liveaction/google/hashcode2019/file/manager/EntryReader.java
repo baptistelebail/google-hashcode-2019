@@ -38,7 +38,6 @@ public class EntryReader {
             // Second line
             scanner.nextLine();
             String bookIdsLine = scanner.nextLine();
-            System.out.println(bookIdsLine);
             IntList bookIds = new IntArrayList();
             String[] strBookIds = bookIdsLine.split(" ");
             for (int j = 0; j < strBookIds.length; j++) {
