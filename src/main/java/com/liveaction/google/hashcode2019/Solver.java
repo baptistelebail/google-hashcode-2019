@@ -16,17 +16,14 @@ import java.util.stream.Collectors;
 public final class Solver {
 
     public Output solve(Input input) {
-
         IntList libraries = new IntArrayList(input.libraries.size());
         Map<Integer, IntList> booksPerLibrary = Maps.newHashMap();
 
+        int days = input.nbDays;
 
-        for(int i = 0; i < input.libraries.size(); i++) {
-            libraries.add(i);
-            booksPerLibrary.put(i, input.libraries.get(i).books);
-        }
 
-        return new Output(input, libraries, booksPerLibrary);
+
+
     }
 
     private Optional<Library> bestLibrary(List<Library> libraries, int daysRemaining, int[] books) {
@@ -40,10 +37,15 @@ public final class Solver {
                 .stream()
                 .sorted(Comparator.comparingInt(b -> -books[b]))
                 .collect(Collectors.toList());
-        return orderedBooks.subList(0, nbBooks)
+        List<Integer> booksToScan;
+        booksToScan = nbBooks > orderedBooks.size() ? orderedBooks : orderedBooks.subList(0, nbBooks);
+        Integer totalScore = booksToScan
                 .stream()
-                .reduce((i, j) -> i+j)
+                .reduce((i, j) -> i + j)
                 .orElse(0);
 
+        return totalScore / library.signupDays;
     }
+
+
 }
