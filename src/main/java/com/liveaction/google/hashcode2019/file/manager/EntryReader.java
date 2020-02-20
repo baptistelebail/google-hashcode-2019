@@ -25,30 +25,31 @@ public class EntryReader {
         int nbDays = scanner.nextInt();
         // Next line: get score of different books
         scanner.nextLine();
-        IntList bookScore = new IntArrayList();
+        int[] bookScore = new int[nbBooks];
         for(int i=0; i<nbBooks; i++) {
-            bookScore.set(i, scanner.nextInt());
+            bookScore[i]= scanner.nextInt();
         }
         // Parse libraries informations
         for(int i=0; i<nbLibraries; i++) {
             // First line:
-            scanner.nextLine();
             int numberOfBooks = scanner.nextInt();
             int numberOfDaysForSignup = scanner.nextInt();
             int shippingPerDay = scanner.nextInt();
             // Second line
+            scanner.nextLine();
             String bookIdsLine = scanner.nextLine();
+            System.out.println(bookIdsLine);
             IntList bookIds = new IntArrayList();
             String[] strBookIds = bookIdsLine.split(" ");
             for (int j = 0; j < strBookIds.length; j++) {
-                bookIds.set(j, new Integer(strBookIds[j]).intValue());
+                bookIds.add(Integer.parseInt(strBookIds[j]));
             }
 
             Library library = new Library(numberOfDaysForSignup, shippingPerDay, bookIds);
             libraries.add(library);
         }
 
-        Input input = new Input(name, null, libraries, nbDays);
+        Input input = new Input(name, bookScore, libraries, nbDays);
         return input;
     }
 }
