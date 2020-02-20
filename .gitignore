@@ -51,7 +51,7 @@ nbactions.xml
 nbproject/
 **.tar.gz
 
-src/resources/outputs/**
+src/resources/output/**
 # Maven
 target
 .class

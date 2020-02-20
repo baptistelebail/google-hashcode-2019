@@ -37,13 +37,8 @@ public final class Solver {
                     .collect(Collectors.toList());
             booksPerLibrary.put(input.libraries.indexOf(bestLib), new IntArrayList(collect));
          //   System.out.println(bestLib);
-            List<Library> libsToRemove = Lists.newArrayList();
-            for (Library lib : libsToParse) {
-                if (lib.signupDays >= days) {
-                    libsToRemove.add(lib);
-                }
-            }
-            libsToParse.removeAll(libsToRemove);
+            int daysFinal = days;
+            libsToParse.removeIf(lib -> lib.signupDays >= daysFinal);
             libsToParse.forEach(l -> l.books.removeAll(bestLib.books));
         }
         return new Output(input, libraries, booksPerLibrary)

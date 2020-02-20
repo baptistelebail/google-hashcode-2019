@@ -6,6 +6,7 @@ import it.unimi.dsi.fastutil.ints.IntList;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public final class Output {
 
@@ -33,8 +34,13 @@ public final class Output {
                 continue;
             }
 
-            int maxDays = books.size() / library.parellelScanning;
-            IntList newList = books.subList(0, Integer.min(maxDays, nbAvailableDays) * library.parellelScanning);
+            int nbDayForLibrary = (int) Math.ceil((double) books.size() / library.parellelScanning);
+            IntList newList;
+            if (nbDayForLibrary > nbAvailableDays) {
+                newList = books.subList(0, nbAvailableDays * library.parellelScanning);
+            } else {
+                newList = books;
+            }
 
             res.put(libraryIdx, newList);
             newLibrary.add(libraryIdx);
@@ -48,6 +54,7 @@ public final class Output {
     public long score() {
         return booksPerLibrary.values().stream()
                 .flatMap(Collection::stream)
+                .collect(Collectors.toSet()).stream()
                 .map(bookId -> input.books[bookId])
                 .reduce((i, j) -> i + j)
                 .map(Integer::longValue)
