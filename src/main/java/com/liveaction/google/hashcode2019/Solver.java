@@ -54,7 +54,6 @@ public final class Solver {
 
     private int scoreLibrary(Library library, int daysRemaining, int[] books) {
         int realDays = daysRemaining - library.signupDays;
-        int nbBooks = realDays * library.parellelScanning;
         List<Integer> orderedBooks = library.books
                 .stream()
                 .sorted(Comparator.comparingInt(b -> -books[b]))
