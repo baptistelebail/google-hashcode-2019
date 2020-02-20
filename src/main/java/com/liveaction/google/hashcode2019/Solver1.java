@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public final class Solver {
+public final class Solver1 {
 
     public Output solve(Input input) {
         IntList libraries = new IntArrayList(input.libraries.size());
