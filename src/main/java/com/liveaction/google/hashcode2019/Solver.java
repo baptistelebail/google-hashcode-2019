@@ -7,6 +7,6 @@ public final class Solver {
 
     public Output solve(Input input) {
 
-        return new Output(input);
+        return new Output(input, libraries, booksPerLibrary);
     }
 }
