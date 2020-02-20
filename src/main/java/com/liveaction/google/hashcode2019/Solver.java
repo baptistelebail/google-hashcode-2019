@@ -24,13 +24,6 @@ public final class Solver {
         int days = input.nbDays;
 
         while (libsToParse.size() > 0) {
-            List<Library> libsToRemove = Lists.newArrayList();
-            for (Library lib : libsToParse) {
-                if (lib.signupDays >= days) {
-                    libsToRemove.add(lib);
-                }
-            }
-            libsToParse.removeAll(libsToRemove);
             Library bestLib = bestLibrary(libsToParse, days, input.books).orElse(null);
             if (bestLib == null) {
                 System.out.println("ERROR : bestLib should not be null");
@@ -43,6 +36,15 @@ public final class Solver {
                     .sorted(Comparator.comparingInt(b -> -input.books[b]))
                     .collect(Collectors.toList());
             booksPerLibrary.put(input.libraries.indexOf(bestLib), new IntArrayList(collect));
+         //   System.out.println(bestLib);
+            List<Library> libsToRemove = Lists.newArrayList();
+            for (Library lib : libsToParse) {
+                if (lib.signupDays >= days) {
+                    libsToRemove.add(lib);
+                }
+            }
+            libsToParse.removeAll(libsToRemove);
+            libsToParse.forEach(l -> l.books.removeAll(bestLib.books));
         }
         return new Output(input, libraries, booksPerLibrary)
                 .truncate();
