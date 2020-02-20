@@ -45,7 +45,8 @@ public final class Solver {
                     .collect(Collectors.toList());
             booksPerLibrary.put(input.libraries.indexOf(bestLib), new IntArrayList(collect));
         }
-        return new Output(input, libraries, booksPerLibrary);
+        return new Output(input, libraries, booksPerLibrary)
+                .truncate();
     }
 
     private Optional<Library> bestLibrary(List<Library> libraries, int daysRemaining, int[] books) {

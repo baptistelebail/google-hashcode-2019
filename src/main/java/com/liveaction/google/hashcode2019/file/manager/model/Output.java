@@ -1,5 +1,7 @@
 package com.liveaction.google.hashcode2019.file.manager.model;
 
+import com.google.common.collect.Maps;
+import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
 
 import java.util.Collection;
@@ -19,16 +21,38 @@ public final class Output {
         this.booksPerLibrary = booksPerLibrary;
     }
 
+    public Output truncate() {
+        int nbAvailableDays = input.nbDays;
+        Map<Integer, IntList> res = Maps.newHashMap();
+        IntList newLibrary = new IntArrayList();
+        for (Integer libraryIdx : libraries) {
+            IntList books = booksPerLibrary.get(libraryIdx);
+            Library library = input.libraries.get(libraryIdx);
+
+            if (library.signupDays >= nbAvailableDays) {
+                continue;
+            }
+
+            int maxDays = books.size() / library.parellelScanning;
+            IntList newList = books.subList(0, Integer.min(maxDays, nbAvailableDays) * library.parellelScanning);
+
+            res.put(libraryIdx, newList);
+            newLibrary.add(libraryIdx);
+
+            nbAvailableDays -= library.signupDays;
+        }
+        return new Output(input, newLibrary, res);
+    }
+
     //TODO: if a book is registered too late, do not count it
     public long score() {
         return booksPerLibrary.values().stream()
                 .flatMap(Collection::stream)
                 .map(bookId -> input.books[bookId])
-                .reduce((i, j) -> i+j)
+                .reduce((i, j) -> i + j)
                 .map(Integer::longValue)
                 .orElse(0L);
     }
-
 
 
 }

@@ -18,10 +18,11 @@ public class Hashcode2019ApplicationTest {
     private final static String C = "src/test/resources/c_incunabula.txt";
     private final static String D = "src/test/resources/d_tough_choices.txt";
     private final static String E = "src/test/resources/e_so_many_books.txt";
+    private final static String F = "src/test/resources/f_libraries_of_the_world.txt";
 
     @Test
     public void test() throws IOException {
-        for (String file : ImmutableList.of(A, B, C, D, E)) {
+        for (String file : ImmutableList.of(A, B, C, D, E, F)) {
             Input input = new EntryReader().getInput(new File(file));
             Output solve = new Solver().solve(input);
             System.out.println("score : " + solve.score());
